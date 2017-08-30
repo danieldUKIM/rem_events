@@ -5,7 +5,14 @@ __copyright__ = "Copyright (c) 2017, Faculty of Electrical Engineering and Infor
 __version__ = "0.1.0"
 __email__ = "{danield}@feit.ukim.edu.mk"
 
+'''	
+Sensing and control events between node controller and WiFi devices
+'''
+
 class WiFiRssiSampleEvent(events.EventBase): #events.GenericRadioDeviceEvent?
+	'''
+	Carries information, from a WiFi monitoring device to the node controller, regarding the sensed RSSI on a specific channel, from a specific WiFi transmitter
+	'''
 	def __init__(self, ra, ta, rssi, chnel):
 		super().__init__()
 		self.ra = ra
@@ -15,6 +22,9 @@ class WiFiRssiSampleEvent(events.EventBase): #events.GenericRadioDeviceEvent?
 		self.chnel = chnel
 
 class WiFiDutyCycleSampleEvent(events.EventBase): #events.GenericRadioDeviceEvent?
+	'''
+	Carries information, from a WiFi monitoring device to the node controller, regarding the duty cycle value on a specific channel, as observed by the WiFi monitoring device
+	'''
 	def __init__(self, ra, dc, chnel):
 		super().__init__()
 		self.ra = ra
@@ -23,6 +33,9 @@ class WiFiDutyCycleSampleEvent(events.EventBase): #events.GenericRadioDeviceEven
 		self.chnel = chnel
 
 class WiFiConfigureAP(events.EventBase):
+	'''
+	Carries information, from the node controller to a WiFi device, with respect to the reconfiguration parameters that trigger the device to (re)configure in access point mode
+	'''
 	def __init__(self, macaddr, ssid, power, channel, hw_mode, ht_capab):
 		super().__init__()
 		self.receiverUuid = None
@@ -34,12 +47,18 @@ class WiFiConfigureAP(events.EventBase):
 		self.ht_capab = ht_capab
 
 class WiFiConfigureAPRsp(events.EventBase):
+	'''
+	Response of an access point regarding the initiated (re)configuration process
+	'''
 	def __init__(self, macaddr, ap_config):
 		super().__init__()
 		self.macaddr = macaddr
 		self.ap_config = ap_config
 
 class WiFiConfigureStation(events.EventBase):
+	'''
+	Carries information, from the node controller to a WiFi device, with respect to the reconfiguration parameters that trigger the device to (re)configure in station mode
+	'''
 	def __init__(self, macaddr, ssid, ap, power, channel):
 		super().__init__()
 		self.receiverUuid = None
@@ -50,6 +69,9 @@ class WiFiConfigureStation(events.EventBase):
 		self.channel = channel
 
 class WiFiConfigureStationRsp(events.EventBase):
+	'''
+	Response of a station regarding the initiated (re)configuration process
+	'''
 	def __init__(self, macaddr, apmac, sta_config):
 		super().__init__()
 		self.macaddr = macaddr
@@ -57,34 +79,52 @@ class WiFiConfigureStationRsp(events.EventBase):
 		self.sta_config = sta_config
 
 class WiFiConfigureMonitor(events.EventBase):
+	'''
+	Carries information, from the node controller to a WiFi device that trigger the device to (re)configure in monitor mode
+	'''
 	def __init__(self, macaddr):
 		super().__init__()
 		self.receiverUuid = None
 		self.macaddr = macaddr
 
 class WiFiConfigureMonitorRsp(events.EventBase):
+	'''
+	Response of a WiFi monitoring device regarding the initiated (re)configuration process
+	'''
 	def __init__(self, macaddr):
 		super().__init__()
 		self.macaddr = macaddr
 
 class WiFiGetCapabilities(events.EventBase):
+	'''
+	Triggers a WiFi device to report its capabilities to the node controller
+	'''
 	def __init__(self, uuid):
 		super().__init__()
 		self.receiverUuid = uuid
 
 class WiFiCapabilities(events.EventBase):
+	'''
+	Carries information, from a WiFi device to the node controller, regarding the device’s capabilities
+	'''
 	def __init__(self, macaddr, capabilities):
 		super().__init__()
 		self.macaddr = macaddr
 		self.capabilities = capabilities
 
 class WiFiStopAll(events.EventBase):
+	'''
+	Event that stops all activities on a given WiFi device
+	'''
 	def __init__(self, macaddr):
 		super().__init__()
 		self.receiverUuid = None
 		self.macaddr = macaddr
 
 class WiFiLinkStatistics(events.EventBase):
+	'''
+	Carries information, from a WiFi device to the node controller, regarding link statistics
+	'''
 	def __init__(self, txmac, rxmac, rssi, tx_retries, tx_failed, tx_rate, rx_rate, tx_thr, rx_thr, tx_activity, rx_activity):
 		super().__init__()
 		self.txmac = txmac
@@ -100,6 +140,9 @@ class WiFiLinkStatistics(events.EventBase):
 		self.rx_activity = rx_activity #in percents
 
 class WiFiAPStatistics(events.EventBase):
+	'''
+	Carries information, from a WiFi access point to the node controller, regarding access point communication statistics
+	'''
 	def __init__(self, apmac, stations, total_tx_retries, total_tx_failed, total_tx_thr, total_rx_thr, total_tx_activity, total_rx_activity):
 		super().__init__()
 		self.apmac = apmac
@@ -112,6 +155,9 @@ class WiFiAPStatistics(events.EventBase):
 		self.total_rx_activity = total_rx_activity #in percents
 
 class PeriodicEvaluationTimeEvent(events.TimeEvent):
+	'''
+	Local time event to trigger a WiFi device for a periodic (re)evaluation
+	'''
 	def __init__(self):
 		super().__init__()
 
